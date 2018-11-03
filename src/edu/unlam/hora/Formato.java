@@ -1,9 +1,11 @@
 package edu.unlam.hora;
 
-import java.util.ArrayList;
-import java.util.List;
 
-public class Hora {
+public class Formato {
+	public static final int SEG_DE_UN_AÑO = 31536000;
+	public static final int SEG_DE_UN_DIA = 86400;
+	public static final int SEG_DE_UNA_HORA = 3600;
+	public static final int SEG_DE_UN_MINUTO = 60;
 
 	public static String FormatoAmigable(int seg) {
 		int años, restoAños, dias, restoDias, horas, restoHoras, minutos, segundos, cantComponentes =0, ultComponente = -1;
@@ -15,14 +17,14 @@ public class Hora {
 		if (seg == 0)
 			return "Ahora";
 
-		años = seg / 31536000;
-		restoAños = seg % 31536000; // segundos que tiene 1 año
-		dias = restoAños / 86400; // segundos que tiene un 1 dia
-		restoDias = restoAños % 86400;
-		horas = restoDias / 3600;
-		restoHoras = restoDias % 3600;
-		minutos = restoHoras / 60;
-		segundos = restoHoras % 60;
+		años = seg / SEG_DE_UN_AÑO;
+		restoAños = seg % SEG_DE_UN_AÑO;
+		dias = restoAños / SEG_DE_UN_DIA; 
+		restoDias = restoAños % SEG_DE_UN_DIA;
+		horas = restoDias / SEG_DE_UNA_HORA;
+		restoHoras = restoDias % SEG_DE_UNA_HORA;
+		minutos = restoHoras / SEG_DE_UN_MINUTO;
+		segundos = restoHoras % SEG_DE_UN_MINUTO;
 
 		// agrego un 1 si va en singular, un 2 si va va en plural.
 		// La posición 0 corresponde a los años, la 1 a los días y asi sucesivamente
