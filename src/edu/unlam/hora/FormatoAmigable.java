@@ -1,14 +1,13 @@
 package edu.unlam.hora;
 
-
-public class Formato {
+public class FormatoAmigable {
 	public static final int SEG_DE_UN_AÑO = 31536000;
 	public static final int SEG_DE_UN_DIA = 86400;
 	public static final int SEG_DE_UNA_HORA = 3600;
 	public static final int SEG_DE_UN_MINUTO = 60;
 
-	public static String FormatoAmigable(int seg) {
-		int años, restoAños, dias, restoDias, horas, restoHoras, minutos, segundos, cantComponentes =0, ultComponente = -1;
+	public static String duracion(int seg) {
+		int años, resto, dias, horas, minutos, segundos, cantComponentes = 0, ultComponente = -1;
 		String retorno = "";
 		int[] componentes = new int[5];
 
@@ -18,13 +17,13 @@ public class Formato {
 			return "Ahora";
 
 		años = seg / SEG_DE_UN_AÑO;
-		restoAños = seg % SEG_DE_UN_AÑO;
-		dias = restoAños / SEG_DE_UN_DIA; 
-		restoDias = restoAños % SEG_DE_UN_DIA;
-		horas = restoDias / SEG_DE_UNA_HORA;
-		restoHoras = restoDias % SEG_DE_UNA_HORA;
-		minutos = restoHoras / SEG_DE_UN_MINUTO;
-		segundos = restoHoras % SEG_DE_UN_MINUTO;
+		resto = seg % SEG_DE_UN_AÑO;
+		dias = resto / SEG_DE_UN_DIA;
+		resto = resto % SEG_DE_UN_DIA;
+		horas = resto / SEG_DE_UNA_HORA;
+		resto = resto % SEG_DE_UNA_HORA;
+		minutos = resto / SEG_DE_UN_MINUTO;
+		segundos = resto % SEG_DE_UN_MINUTO;
 
 		// agrego un 1 si va en singular, un 2 si va va en plural.
 		// La posición 0 corresponde a los años, la 1 a los días y asi sucesivamente
@@ -49,10 +48,11 @@ public class Formato {
 		if (segundos > 1)
 			componentes[4] = 2;
 
-		/* Verifico cual es el ultimo componente, pues necesito saber donde poner el
+		/*
+		 * Verifico cual es el ultimo componente, pues necesito saber donde poner el
 		 * "y". Aparte cuento cuantos componentes hay.
 		 */
-		
+
 		for (int i = 0; i < componentes.length; i++) {
 			if (componentes[i] != 0) {
 				ultComponente = i;
@@ -60,71 +60,71 @@ public class Formato {
 			}
 		}
 
-		
 		for (int i = 0; i < componentes.length; i++) {
 			if (componentes[i] != 0) {
-
-				if (i == 0) { //años
-					if(componentes[i] ==1)
+				switch (i) {
+				case 0:
+					if (componentes[i] == 1)
 						retorno += años + " año";
 					else
 						retorno += años + " años";
-				}
-				else if (i == 1) { //dias
+					break;
 
-					if(!retorno.equals(""))
-						if(ultComponente == 1)
+				case 1:
+					if (!retorno.equals(""))
+						if (ultComponente == 1)
 							retorno += " y ";
 						else
 							retorno += ", ";
-						
-					if(componentes[i]==1)
+
+					if (componentes[i] == 1)
 						retorno += dias + " día";
 					else
 						retorno += dias + " días";
-				}
-				else if (i == 2) { //horas
-					
-					if(!retorno.equals(""))
-						if(ultComponente == 2)
+
+					break;
+
+				case 2:
+					if (!retorno.equals(""))
+						if (ultComponente == 2)
 							retorno += " y ";
 						else
 							retorno += ", ";
-					
-					if(componentes[i]==1)
+
+					if (componentes[i] == 1)
 						retorno += horas + " hora";
 					else
 						retorno += horas + " horas";
-				}
-
-				else if (i == 3) { //minutos
-					
-					if(!retorno.equals(""))
-						if(ultComponente == 3)
+					break;
+				case 3:
+					if (!retorno.equals(""))
+						if (ultComponente == 3)
 							retorno += " y ";
 						else
 							retorno += ", ";
-						
-					if(componentes[i]==1)
+
+					if (componentes[i] == 1)
 						retorno += minutos + " minuto";
 					else
 						retorno += minutos + " minutos";
-
-				} else { //segundos
-					
-					if(!retorno.equals(""))
-						if(ultComponente == 4)
+					break;
+				case 4:
+					if (!retorno.equals(""))
+						if (ultComponente == 4)
 							retorno += " y ";
 						else
 							retorno += ", ";
-						
-					if(componentes[i]==1)
+
+					if (componentes[i] == 1)
 						retorno += segundos + " segundo";
 					else
 						retorno += segundos + " segundos";
+					break;
+
 				}
+
 			}
-			
+
 		}
 		return retorno;
 	}
